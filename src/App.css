@@ -15,5 +15,8 @@
 
 .pdf-wrapper {
 height: auto;
+  min-width: 2000px;
+  min-height: 2828px;
+  background-color: white;
 }
 

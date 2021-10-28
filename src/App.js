@@ -11,18 +11,24 @@ function App() {
     const [cvUrl, setCvUrl] = useState(null)
     const [loading, setLoading] = useState(true);
 
+    const [text, setText] = useState('some text')
+
     const onDocumentLoadSuccess = () => {
         setLoading(false);
     }
 
     const render = async () => {
-        const blob = await pdf(<PdfDocument />).toBlob()
+        const blob = await pdf(<PdfDocument text={text}/>).toBlob()
         setCvUrl(blob)
     }
 
     useEffect(() => {
         render()
-    }, [])
+    }, [text])
+
+    const handleChange = (event) => {
+        setText(event.target.value)
+    }
 
   return (
     <div className="App">
@@ -32,13 +38,17 @@ function App() {
                 <Document
                     file={cvUrl}
                     onLoadSuccess={onDocumentLoadSuccess}>
-                    <Page pageNumber={1} width={2000} canvasBackground="transparent"/>
+                    <Page pageNumber={1} width={2000}/>
                 </Document>
             </div>
-
+          <input
+              type="text"
+              value={text}
+          onChange={handleChange}
+          />
 
         <PDFDownloadLink
-            document={<PdfDocument />}
+            document={<PdfDocument text={text}/>}
             fileName="CV.pdf"
             style={{
               textDecoration: "none",
