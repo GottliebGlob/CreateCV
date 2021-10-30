@@ -1,9 +1,9 @@
 .App {
-  text-align: center;
+  background-color: #e6f4ff;
 }
 
 .App-header {
-  background-color: #282c34;
+
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -15,8 +15,13 @@
 
 .pdf-wrapper {
 height: auto;
-  min-width: 2000px;
-  min-height: 2828px;
+  min-width: calc(0.9vh * 0.7);
+  min-height: 0.9vh;
   background-color: white;
+  border-radius: 15px;
+}
+
+.react-pdf__Page__canvas {
+  border-radius: 15px;
 }
 
