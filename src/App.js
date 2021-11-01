@@ -1,7 +1,7 @@
 import './App.css';
-import {useEffect, useState} from "react";
-import { PDFDownloadLink, pdf} from "@react-pdf/renderer";
-import { Document, Page } from 'react-pdf/dist/esm/entry.webpack';
+import {useEffect, useState, useCallback} from "react";
+import {PDFDownloadLink, pdf} from "@react-pdf/renderer";
+import {Document, Page} from 'react-pdf/dist/esm/entry.webpack';
 
 import {PdfDocument} from "./components/DemoPage";
 
@@ -18,96 +18,108 @@ const useStyles = makeStyles((theme) => ({
         color: '#fff'
     },
     typo: {
-       paddingTop: 10,
-        paddingRight: 5
+        paddingTop: 10,
+        paddingRight: 10
     }
 }));
 
+const useFormField = (initialValue = "") => {
+    const [value, setValue] = useState(initialValue);
+    const onChange = useCallback((e) => setValue(e.target.value), []);
+    return { value, onChange };
+};
+
 function App() {
     const classes = useStyles();
-    const cvWidth = (window.innerHeight * 0.9) * 0.7
+
 
     const [cvUrl, setCvUrl] = useState(null)
     const [loading, setLoading] = useState(true);
 
-    const [text, setText] = useState('some text')
+    const nameField = useFormField("");
+    const sonameField = useFormField("");
+
 
     const onDocumentLoadSuccess = () => {
         setLoading(false);
     }
 
     const render = async () => {
-        const blob = await pdf(<PdfDocument text={text}/>).toBlob()
+        const blob = await pdf(<PdfDocument name={nameField.value} soname={sonameField.value}/>).toBlob()
         setCvUrl(blob)
     }
 
     useEffect(() => {
         render()
-    }, [text])
+    }, [nameField.value, sonameField.value])
 
-    const handleChange = (event) => {
-        setText(event.target.value)
-    }
+    return (
+        <div className="App">
+            <Grid container
+                  spacing={2}>
+                <Grid item container md={6} className={classes.root}
+                      direction="column"
+                      alignItems="center"
+                      justify="center">
+                    <Typography variant="h2" className={classes.white} fontWeight="fontWeightBold">
+                        Your Resume
+                    </Typography>
+                    <Container maxWidth="md">
+                        <PaperWrapper>
+                            <div className="paper-inner">
+                                <div>
+                                    <Typography variant="h6" display="inline-block" className={classes.typo}>
+                                        Name:
+                                    </Typography>
+                                    <TextField
+                                        display="inline-block"
+                                        {...nameField}
+                                    />
+                                </div>
 
-  return (
-    <div className="App">
-        <Grid container
-              spacing={2}>
-            <Grid item container md={6} className={classes.root}
-                  direction="column"
-                  alignItems="center"
-                  justify="center">
-                <Typography variant="h2" className={classes.white} fontWeight="fontWeightBold">
-                    Your Resume
-                </Typography>
-                <Container>
-                   <PaperWrapper sx={{ flexDirection: 'row', alignItems: 'flex-end' }} >
-                        <Typography variant="h4" display="inline-block"  className={classes.typo}>
-                           Name:
-                        </Typography>
-                        <TextField
-                            display="inline-block"
-                        value={text}
-                        onChange={handleChange}
-                        />
-                   </PaperWrapper>
-                </Container>
-            </Grid>
-            <Grid item md={6}>
-                <div className="App-header">
-                    <div className="pdf-wrapper">
+                                <div className="input-fragment">
+                                    <Typography variant="h6" display="inline-block" className={classes.typo}>
+                                        Soname:
+                                    </Typography>
+                                    <TextField
+                                        display="inline-block"
+                                        {...sonameField}
+                                    />
+                                </div>
+                            </div>
+                        </PaperWrapper>
+                    </Container>
+                </Grid>
+                <Grid item md={6}>
+                    <div className="App-header">
+                        <div className="pdf-wrapper">
 
-                        <Document
-                            file={cvUrl}
-                            onLoadSuccess={onDocumentLoadSuccess}>
-                            <Page pageNumber={1} width={cvWidth}/>
-                        </Document>
+                            <Document
+                                file={cvUrl}
+                                onLoadSuccess={onDocumentLoadSuccess}>
+                                <Page pageNumber={1} width={590}/>
+                            </Document>
+                        </div>
+
+                        <PDFDownloadLink
+                            document={<PdfDocument name={nameField.value} soname={sonameField.value}/>}
+                            fileName="CV.pdf"
+                            style={{
+                                textDecoration: "none",
+                                padding: "10px",
+                                color: "#4a4a4a",
+                                backgroundColor: "#f2f2f2",
+                                border: "1px solid #4a4a4a"
+                            }}
+                        >
+                            {({blob, url, loading, error}) => (loading ? 'Loading document...' : 'Download now!')}
+                        </PDFDownloadLink>
                     </div>
-                    <input
-                        type="text"
-                        value={text}
-                        onChange={handleChange}
-                    />
-
-                    <PDFDownloadLink
-                        document={<PdfDocument text={text}/>}
-                        fileName="CV.pdf"
-                        style={{
-                            textDecoration: "none",
-                            padding: "10px",
-                            color: "#4a4a4a",
-                            backgroundColor: "#f2f2f2",
-                            border: "1px solid #4a4a4a"
-                        }}
-                    >
-                        {({ blob, url, loading, error }) => (loading ? 'Loading document...' : 'Download now!')}
-                    </PDFDownloadLink>
-                </div>
+                </Grid>
             </Grid>
-        </Grid>
 
-    </div>
-  );
+        </div>
+    );
 }
 
 export default App;

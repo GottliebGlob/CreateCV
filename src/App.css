@@ -14,14 +14,19 @@
 }
 
 .pdf-wrapper {
-height: auto;
-  min-width: calc(0.9vh * 0.7);
-  min-height: 0.9vh;
+  min-width: 590px;
+  min-height: 834px;
   background-color: white;
   border-radius: 15px;
 }
 
 .react-pdf__Page__canvas {
   border-radius: 15px;
+}
+
+.paper-inner {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
 }
 

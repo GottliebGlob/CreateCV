@@ -158,7 +158,7 @@ export const PdfDocument = (props) => (
                 </View>
 
                     <Text style={styles.name}>
-                        Gleb Globin
+                        {`${props.name}  ${props.soname}`}
                     </Text>
                     <Text style={styles.position}>
                           React Developer
