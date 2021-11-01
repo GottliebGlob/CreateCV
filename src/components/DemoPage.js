@@ -149,6 +149,7 @@ const styles = StyleSheet.create({
 
 });
 
+
 export const PdfDocument = (props) => (
     <Document>
         <Page size="A4" style={styles.page}>
@@ -161,7 +162,7 @@ export const PdfDocument = (props) => (
                         {`${props.name}  ${props.soname}`}
                     </Text>
                     <Text style={styles.position}>
-                          React Developer
+                        {props.position}
                     </Text>
 
 

@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     },
     typo: {
         paddingTop: 10,
-        paddingRight: 10
+        paddingRight: 10,
     }
 }));
 
@@ -32,12 +32,13 @@ const useFormField = (initialValue = "") => {
 function App() {
     const classes = useStyles();
 
-
     const [cvUrl, setCvUrl] = useState(null)
     const [loading, setLoading] = useState(true);
 
     const nameField = useFormField("");
     const sonameField = useFormField("");
+    const positionField = useFormField("");
+
 
 
     const onDocumentLoadSuccess = () => {
@@ -45,13 +46,19 @@ function App() {
     }
 
     const render = async () => {
-        const blob = await pdf(<PdfDocument name={nameField.value} soname={sonameField.value}/>).toBlob()
+        const blob = await pdf(<PdfDocument
+            name={nameField.value}
+            soname={sonameField.value}
+            position={positionField.value}
+        />).toBlob()
         setCvUrl(blob)
     }
 
     useEffect(() => {
+
         render()
-    }, [nameField.value, sonameField.value])
+    }, [nameField.value,
+        sonameField.value])
 
     return (
         <div className="App">
@@ -67,25 +74,41 @@ function App() {
                     <Container maxWidth="md">
                         <PaperWrapper>
                             <div className="paper-inner">
-                                <div>
                                     <Typography variant="h6" display="inline-block" className={classes.typo}>
                                         Name:
                                     </Typography>
                                     <TextField
-                                        display="inline-block"
+                                        label="Name"
+                                        required
+                                        fullWidth
                                         {...nameField}
+                                        sx={{marginRight: 1}}
                                     />
-                                </div>
-
-                                <div className="input-fragment">
                                     <Typography variant="h6" display="inline-block" className={classes.typo}>
                                         Soname:
                                     </Typography>
                                     <TextField
-                                        display="inline-block"
+                                        label="Soname"
+                                        required
+                                        fullWidth
                                         {...sonameField}
                                     />
-                                </div>
+                            </div>
+                        </PaperWrapper>
+
+                        <PaperWrapper>
+                            <div className="paper-inner">
+                                    <Typography variant="h6" display="inline-block" className={classes.typo}>
+                                        Position:
+                                    </Typography>
+
+                                        <TextField
+                                            label="Position"
+                                            required
+                                            {...positionField}
+                                            fullWidth
+                                        />
+
                             </div>
                         </PaperWrapper>
                     </Container>
@@ -102,7 +125,10 @@ function App() {
                         </div>
 
                         <PDFDownloadLink
-                            document={<PdfDocument name={nameField.value} soname={sonameField.value}/>}
+                            document={<PdfDocument
+                                name={nameField.value}
+                                soname={sonameField.value}
+                                position={positionField.value}/>}
                             fileName="CV.pdf"
                             style={{
                                 textDecoration: "none",
