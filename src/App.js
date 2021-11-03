@@ -38,6 +38,13 @@ function App() {
     const nameField = useFormField("");
     const sonameField = useFormField("");
     const positionField = useFormField("");
+    const phoneField = useFormField("");
+    const emailField = useFormField("");
+    const skypeField = useFormField("");
+    const telegramField = useFormField("");
+    const linkedinField = useFormField("");
+    const githubField = useFormField("");
+
 
 
 
@@ -50,6 +57,12 @@ function App() {
             name={nameField.value}
             soname={sonameField.value}
             position={positionField.value}
+            email={emailField.value}
+            phone={phoneField.value}
+            skype={skypeField.value}
+            telegram={telegramField.value}
+            linkedin={linkedinField.value}
+            github={githubField.value}
         />).toBlob()
         setCvUrl(blob)
     }
@@ -58,7 +71,15 @@ function App() {
 
         render()
     }, [nameField.value,
-        sonameField.value])
+            sonameField.value,
+            positionField.value,
+            emailField.value,
+            phoneField.value,
+            skypeField.value,
+            telegramField.value,
+            linkedinField.value,
+            githubField.value
+    ])
 
     return (
         <div className="App">
@@ -111,6 +132,76 @@ function App() {
 
                             </div>
                         </PaperWrapper>
+
+                        <PaperWrapper>
+                            <div className="paper-inner">
+                                <Typography variant="h6" display="inline-block" className={classes.typo}>
+                                    Email:
+                                </Typography>
+                                <TextField
+                                    label="Email"
+                                    required
+                                    fullWidth
+                                    {...emailField}
+                                    sx={{marginRight: 1}}
+                                />
+                                <Typography variant="h6" display="inline-block" className={classes.typo}>
+                                    Phone:
+                                </Typography>
+                                <TextField
+                                    label="Phone"
+                                    required
+                                    fullWidth
+                                    {...phoneField}
+                                />
+                            </div>
+                        </PaperWrapper>
+
+                        <PaperWrapper>
+                            <div className="paper-inner">
+                                <Typography variant="h6" display="inline-block" className={classes.typo}>
+                                    Skype:
+                                </Typography>
+                                <TextField
+                                    label="Skype"
+                                    fullWidth
+                                    {...skypeField}
+                                    sx={{marginRight: 1}}
+                                />
+                                <Typography variant="h6" display="inline-block" className={classes.typo}>
+                                    Telegram:
+                                </Typography>
+                                <TextField
+                                    label="Telegram"
+                                    fullWidth
+                                    {...telegramField}
+                                />
+                            </div>
+                        </PaperWrapper>
+
+                        <PaperWrapper>
+                            <div className="paper-inner">
+                                <Typography variant="h6" display="inline-block" className={classes.typo}>
+                                    LinkedIn:
+                                </Typography>
+                                <TextField
+                                    label="LinkedIn"
+                                    fullWidth
+                                    {...linkedinField}
+                                    sx={{marginRight: 1}}
+                                />
+                                <Typography variant="h6" display="inline-block" className={classes.typo}>
+                                    GitHub:
+                                </Typography>
+                                <TextField
+                                    label="Github"
+                                    fullWidth
+                                    {...githubField}
+                                />
+                            </div>
+                        </PaperWrapper>
+
+
                     </Container>
                 </Grid>
                 <Grid item md={6}>
@@ -128,7 +219,14 @@ function App() {
                             document={<PdfDocument
                                 name={nameField.value}
                                 soname={sonameField.value}
-                                position={positionField.value}/>}
+                                position={positionField.value}
+                                email={emailField.value}
+                                phone={phoneField.value}
+                                skype={skypeField.value}
+                                telegram={telegramField.value}
+                                linkedin={linkedinField.value}
+                                github={githubField.value}
+                            />}
                             fileName="CV.pdf"
                             style={{
                                 textDecoration: "none",

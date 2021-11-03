@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     name: {
         color: 'white',
         fontSize: 30,
-       fontWeight: 'bold'
+        fontWeight: 'bold'
     },
     position: {
         color: 'white',
@@ -63,14 +63,23 @@ const styles = StyleSheet.create({
     contacts: {
         flexDirection: 'row',
         justifyContent: 'space-around',
+        alignItems: 'center',
+        flexWrap: 'wrap',
         backgroundColor: '#B74803',
         width: '100%',
-        padding: 5,
-        marginTop: 5
+        paddingLeft: 10,
+        paddingRight: 5,
+        marginTop: 5,
+        paddingBottom: 5
     },
     contactsText: {
         color: 'white',
-        paddingRight: 20
+        fontSize: 16,
+        textAlign: 'left',
+        paddingTop: 5,
+        minWidth: '30%',
+        maxWidth: '50%',
+        paddingRight: 5
     },
     mainBody: {
         display: 'flex',
@@ -110,7 +119,7 @@ const styles = StyleSheet.create({
         color: '#022E51'
     },
     placeWrapper: {
-      flexDirection: 'column',
+        flexDirection: 'column',
         marginLeft: 50,
         marginRight: 100
     },
@@ -140,7 +149,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: 0,
         padding: 5,
-       flexDirection: 'row',
+        flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#B74803',
@@ -158,24 +167,40 @@ export const PdfDocument = (props) => (
                     <Image src={Face}/>
                 </View>
 
-                    <Text style={styles.name}>
-                        {`${props.name}  ${props.soname}`}
-                    </Text>
-                    <Text style={styles.position}>
-                        {props.position}
-                    </Text>
+                <Text style={styles.name}>
+                    {`${props.name}  ${props.soname}`}
+                </Text>
+                <Text style={styles.position}>
+                    {props.position}
+                </Text>
 
 
                 <View style={styles.contacts}>
-                    <Text style={styles.contactsText}>
-                       +380 99 634 14 78
-                    </Text>
-                    <Text style={styles.contactsText}>
-                        t.me/GottliebGlob
-                    </Text>
-                    <Text style={styles.contactsText}>
-                        glebglobin13@gmail.com
-                    </Text>
+
+                    { props.email.length > 0 && ( <Text style={styles.contactsText}>
+                            {props.email}
+                        </Text> )}
+
+                    { props.phone.length > 0 && ( <Text style={styles.contactsText}>
+                        {props.phone}
+                    </Text> )}
+
+                    { props.linkedin.length > 0 && ( <Text style={styles.contactsText}>
+                        {props.linkedin}
+                    </Text> )}
+
+                    { props.skype.length > 0 && ( <Text style={styles.contactsText}>
+                        {props.skype}
+                    </Text> )}
+
+                    { props.telegram.length > 0 && ( <Text style={styles.contactsText}>
+                        {props.telegram}
+                    </Text> )}
+
+                    { props.github.length > 0 && ( <Text style={styles.contactsText}>
+                        {props.github}
+                    </Text> )}
+
                 </View>
             </View>
 
@@ -186,7 +211,7 @@ export const PdfDocument = (props) => (
                     </Text>
                     <View style={styles.sectionTextWrapper}>
                         <Text style={styles.sectionText}>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit,
                             sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                             Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi
                             ut aliquip ex ea commodo consequat. Duis aute irure dolor in
@@ -203,20 +228,20 @@ export const PdfDocument = (props) => (
                         EXPERIENCE
                     </Text>
                     <View style={styles.sectionTextWrapper}>
-                    <View style={styles.experienceWrapper}>
+                        <View style={styles.experienceWrapper}>
                             <Text style={styles.years}>
                                 • 2019-2021
                             </Text>
-                        <View style={styles.placeWrapper}>
-                            <Text style={styles.place}>
-                                Spender Money Tracker
-                            </Text>
-                            <Text style={styles.placeSec}>
-                                Full Stack Developer
-                            </Text>
-                        </View>
+                            <View style={styles.placeWrapper}>
+                                <Text style={styles.place}>
+                                    Spender Money Tracker
+                                </Text>
+                                <Text style={styles.placeSec}>
+                                    Full Stack Developer
+                                </Text>
+                            </View>
 
-                    </View>
+                        </View>
 
                         <View style={styles.experienceWrapper}>
                             <Text style={styles.years}>
@@ -249,7 +274,7 @@ export const PdfDocument = (props) => (
                                     Volodymyr Dahl National University
                                 </Text>
                                 <Text style={styles.placeSec}>
-                                   Computer Science bachelor's degree
+                                    Computer Science bachelor's degree
                                 </Text>
                             </View>
 
