@@ -8,6 +8,7 @@ import {PdfDocument} from "./components/DemoPage";
 import {Container, Grid, TextField, Typography} from "@mui/material"
 import {makeStyles} from "@mui/styles"
 import PaperWrapper from "./components/PaperWrapper";
+import RegularInput from "./components/RegularInput";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -34,6 +35,7 @@ function App() {
 
     const [cvUrl, setCvUrl] = useState(null)
     const [loading, setLoading] = useState(true);
+    const [inputFocus, setInputFocus] = useState(false)
 
     const nameField = useFormField("");
     const sonameField = useFormField("");
@@ -45,11 +47,18 @@ function App() {
     const linkedinField = useFormField("");
     const githubField = useFormField("");
 
-
-
-
     const onDocumentLoadSuccess = () => {
         setLoading(false);
+    }
+
+    const onEnterPress = (e) => {
+        if(e.keyCode === 13){
+            e.target.blur();
+        }
+    }
+
+    const onInputBlur = () => {
+        setInputFocus(!inputFocus)
     }
 
     const render = async () => {
@@ -70,15 +79,7 @@ function App() {
     useEffect(() => {
 
         render()
-    }, [nameField.value,
-            sonameField.value,
-            positionField.value,
-            emailField.value,
-            phoneField.value,
-            skypeField.value,
-            telegramField.value,
-            linkedinField.value,
-            githubField.value
+    }, [inputFocus
     ])
 
     return (
@@ -93,111 +94,94 @@ function App() {
                         Your Resume
                     </Typography>
                     <Container maxWidth="md">
-                        <PaperWrapper>
-                            <div className="paper-inner">
-                                    <Typography variant="h6" display="inline-block" className={classes.typo}>
-                                        Name:
-                                    </Typography>
-                                    <TextField
-                                        label="Name"
-                                        required
-                                        fullWidth
-                                        {...nameField}
-                                        sx={{marginRight: 1}}
-                                    />
-                                    <Typography variant="h6" display="inline-block" className={classes.typo}>
-                                        Soname:
-                                    </Typography>
-                                    <TextField
-                                        label="Soname"
-                                        required
-                                        fullWidth
-                                        {...sonameField}
-                                    />
-                            </div>
-                        </PaperWrapper>
+
+                        <Typography variant="h5" className={classes.white} fontWeight="fontWeightBold">
+                           General
+                        </Typography>
 
                         <PaperWrapper>
                             <div className="paper-inner">
-                                    <Typography variant="h6" display="inline-block" className={classes.typo}>
-                                        Position:
-                                    </Typography>
 
-                                        <TextField
-                                            label="Position"
-                                            required
-                                            {...positionField}
-                                            fullWidth
-                                        />
+                                <RegularInput label="Name"
+                                              required
+                                              field={nameField}
+                                              onInputBlur={onInputBlur}
+                                              onEnterPress={onEnterPress}
+                                              margin={1}
+                                />
+
+                                <RegularInput label="Soname"
+                                              required
+                                              field={sonameField}
+                                              onInputBlur={onInputBlur}
+                                              onEnterPress={onEnterPress}
+                                />
 
                             </div>
                         </PaperWrapper>
 
                         <PaperWrapper>
                             <div className="paper-inner">
-                                <Typography variant="h6" display="inline-block" className={classes.typo}>
-                                    Email:
-                                </Typography>
-                                <TextField
-                                    label="Email"
-                                    required
-                                    fullWidth
-                                    {...emailField}
-                                    sx={{marginRight: 1}}
+                                <RegularInput label="Position"
+                                              required
+                                              field={positionField}
+                                              onInputBlur={onInputBlur}
+                                              onEnterPress={onEnterPress}
                                 />
-                                <Typography variant="h6" display="inline-block" className={classes.typo}>
-                                    Phone:
-                                </Typography>
-                                <TextField
-                                    label="Phone"
-                                    required
-                                    fullWidth
-                                    {...phoneField}
+                            </div>
+                        </PaperWrapper>
+
+                        <Typography variant="h5" className={classes.white} fontWeight="fontWeightBold">
+                            Contacts
+                        </Typography>
+
+                        <PaperWrapper>
+                            <div className="paper-inner">
+                                <RegularInput label="Email"
+                                              required
+                                              field={emailField}
+                                              onInputBlur={onInputBlur}
+                                              onEnterPress={onEnterPress}
+                                              margin={1}
+                                />
+                                <RegularInput label="Phone"
+                                              required
+                                              field={phoneField}
+                                              onInputBlur={onInputBlur}
+                                              onEnterPress={onEnterPress}
                                 />
                             </div>
                         </PaperWrapper>
 
                         <PaperWrapper>
                             <div className="paper-inner">
-                                <Typography variant="h6" display="inline-block" className={classes.typo}>
-                                    Skype:
-                                </Typography>
-                                <TextField
-                                    label="Skype"
-                                    fullWidth
-                                    {...skypeField}
-                                    sx={{marginRight: 1}}
+                                <RegularInput label="Skype"
+                                              field={skypeField}
+                                              onInputBlur={onInputBlur}
+                                              onEnterPress={onEnterPress}
+                                              margin={1}
                                 />
-                                <Typography variant="h6" display="inline-block" className={classes.typo}>
-                                    Telegram:
-                                </Typography>
-                                <TextField
-                                    label="Telegram"
-                                    fullWidth
-                                    {...telegramField}
+                                <RegularInput label="Telegram"
+                                              field={telegramField}
+                                              onInputBlur={onInputBlur}
+                                              onEnterPress={onEnterPress}
                                 />
                             </div>
                         </PaperWrapper>
 
                         <PaperWrapper>
                             <div className="paper-inner">
-                                <Typography variant="h6" display="inline-block" className={classes.typo}>
-                                    LinkedIn:
-                                </Typography>
-                                <TextField
-                                    label="LinkedIn"
-                                    fullWidth
-                                    {...linkedinField}
-                                    sx={{marginRight: 1}}
-                                />
-                                <Typography variant="h6" display="inline-block" className={classes.typo}>
-                                    GitHub:
-                                </Typography>
-                                <TextField
-                                    label="Github"
-                                    fullWidth
-                                    {...githubField}
-                                />
+                            <RegularInput label="LinkedIn"
+                                          field={linkedinField}
+                                          onInputBlur={onInputBlur}
+                                          onEnterPress={onEnterPress}
+                                          margin={1}
+                            />
+                            <RegularInput label="GitHub"
+                                          field={githubField}
+                                          onInputBlur={onInputBlur}
+                                          onEnterPress={onEnterPress}
+                            />
                             </div>
                         </PaperWrapper>
 

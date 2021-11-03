@@ -70,7 +70,8 @@ const styles = StyleSheet.create({
         paddingLeft: 10,
         paddingRight: 5,
         marginTop: 5,
-        paddingBottom: 5
+        paddingBottom: 5,
+        minHeight: 20
     },
     contactsText: {
         color: 'white',
