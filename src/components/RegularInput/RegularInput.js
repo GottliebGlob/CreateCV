@@ -16,10 +16,15 @@ export const RegularInput = (props) => {
                 label={props.label}
                 required={props.required}
                 {...props.field}
+                inputProps={{
+                    maxLength: props.maxLength
+                }}
                 fullWidth
                 onBlur={() => props.onInputBlur()}
                 onKeyDown={(e) => props.onEnterPress(e)}
-                sx={{marginRight: props.margin}}
+                sx={{marginRight: props.margin, ...props.styles}}
+                multiline={!!props.minRows}
+                minRows={props.minRows}
             />
         </>
     )

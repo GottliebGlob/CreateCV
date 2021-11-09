@@ -14,9 +14,22 @@ import RegularInput from "./components/RegularInput";
 const useStyles = makeStyles((theme) => ({
     root: {
         backgroundColor: '#022E51',
+        height: '100vh',
+        overflow: 'auto',
+        display: 'flex',
+    },
+    container: {
+        display: 'flex',
+        height: '100%'
+
     },
     white: {
-        color: '#fff'
+        color: '#fff',
+    },
+    resume: {
+        color: '#fff',
+        textAlign: 'center',
+        marginTop: 10
     },
     typo: {
         paddingTop: 10,
@@ -46,6 +59,13 @@ function App() {
     const telegramField = useFormField("");
     const linkedinField = useFormField("");
     const githubField = useFormField("");
+    const profileField = useFormField("");
+    const [profileSymbolsLeft, setProfileSymbolsLeft] = useState(0)
+
+
+    useEffect(() => {
+        setProfileSymbolsLeft(profileField.value.length)
+    }, [profileField.value])
 
     const onDocumentLoadSuccess = () => {
         setLoading(false);
@@ -72,6 +92,7 @@ function App() {
             telegram={telegramField.value}
             linkedin={linkedinField.value}
             github={githubField.value}
+            profile={profileField.value}
         />).toBlob()
         setCvUrl(blob)
     }
@@ -85,15 +106,18 @@ function App() {
     return (
         <div className="App">
             <Grid container
-                  spacing={2}>
+                  className={classes.container}
+            >
                 <Grid item container md={6} className={classes.root}
                       direction="column"
                       alignItems="center"
                       justify="center">
-                    <Typography variant="h2" className={classes.white} fontWeight="fontWeightBold">
-                        Your Resume
-                    </Typography>
+
+
                     <Container maxWidth="md">
+                        <Typography variant="h2" className={classes.resume} fontWeight="fontWeightBold">
+                            Your Resume
+                        </Typography>
 
                         <Typography variant="h5" className={classes.white} fontWeight="fontWeightBold">
                            General
@@ -185,6 +209,30 @@ function App() {
                             </div>
                         </PaperWrapper>
 
+                        <Typography variant="h5" className={classes.white} fontWeight="fontWeightBold">
+                            About
+                        </Typography>
+
+                        <PaperWrapper>
+                            <div className="paper-inner">
+                                <RegularInput label="Profile"
+                                              field={profileField}
+                                              required
+                                              onInputBlur={onInputBlur}
+                                              onEnterPress={onEnterPress}
+                                              minRows={4}
+                                              maxLenght={500}
+                                />
+                            </div>
+
+                            <Typography variant="subtitle1"
+                                        sx={{textAlign: 'right'}} >
+                                {`${profileSymbolsLeft}/500`}
+                            </Typography>
+                        </PaperWrapper>
+
+
+
 
                     </Container>
                 </Grid>
@@ -210,6 +258,7 @@ function App() {
                                 telegram={telegramField.value}
                                 linkedin={linkedinField.value}
                                 github={githubField.value}
+                                profile={profileField.value}
                             />}
                             fileName="CV.pdf"
                             style={{
