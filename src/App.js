@@ -2,10 +2,11 @@ import './App.css';
 import {useEffect, useState, useCallback} from "react";
 import {PDFDownloadLink, pdf} from "@react-pdf/renderer";
 import {Document, Page} from 'react-pdf/dist/esm/entry.webpack';
+import { useFilePicker } from 'use-file-picker';
 
 import {PdfDocument} from "./components/DemoPage";
 
-import {Container, Grid, TextField, Typography} from "@mui/material"
+import {Container, Grid, TextField, Typography, Button} from "@mui/material"
 import {makeStyles} from "@mui/styles"
 import PaperWrapper from "./components/PaperWrapper";
 import RegularInput from "./components/RegularInput";
@@ -25,6 +26,9 @@ const useStyles = makeStyles((theme) => ({
     },
     white: {
         color: '#fff',
+    },
+    mainColor: {
+        color: '#022E51',
     },
     resume: {
         color: '#fff',
@@ -50,8 +54,9 @@ function App() {
     const [loading, setLoading] = useState(true);
     const [inputFocus, setInputFocus] = useState(false)
 
+    const [picture, setPicture] = useState(null)
     const nameField = useFormField("");
-    const sonameField = useFormField("");
+    const surnameField = useFormField("");
     const positionField = useFormField("");
     const phoneField = useFormField("");
     const emailField = useFormField("");
@@ -61,6 +66,21 @@ function App() {
     const githubField = useFormField("");
     const profileField = useFormField("");
     const [profileSymbolsLeft, setProfileSymbolsLeft] = useState(0)
+
+    const [openFileSelector, { filesContent }] = useFilePicker({
+        readAs: 'DataURL',
+        accept: 'image/*',
+        multiple: true,
+        limitFilesConfig: { max: 1 },
+        maxFileSize: 50
+    });
+
+    useEffect(() => {
+        if (!!filesContent.length) {
+           setPicture(filesContent[0].content)
+            onInputBlur()
+        }
+    }, [filesContent.length])
 
 
     useEffect(() => {
@@ -83,8 +103,9 @@ function App() {
 
     const render = async () => {
         const blob = await pdf(<PdfDocument
+            picture={picture}
             name={nameField.value}
-            soname={sonameField.value}
+            surname={surnameField.value}
             position={positionField.value}
             email={emailField.value}
             phone={phoneField.value}
@@ -108,7 +129,7 @@ function App() {
             <Grid container
                   className={classes.container}
             >
-                <Grid item container md={6} className={classes.root}
+                <Grid item container md={6} className={classes.root} id="scroll"
                       direction="column"
                       alignItems="center"
                       justify="center">
@@ -120,6 +141,20 @@ function App() {
                         </Typography>
 
                         <Typography variant="h5" className={classes.white} fontWeight="fontWeightBold">
+                            Profile picture
+                        </Typography>
+
+                        <PaperWrapper>
+                            <div className="paper-inner pointer" onClick={() => openFileSelector()}>
+
+                                <Typography className={classes.mainColor} variant="h5" fontWeight="fontWeightBold">
+                                    Browse files
+                                </Typography>
+
+                            </div>
+                        </PaperWrapper>
+
+                                <Typography variant="h5" className={classes.white} fontWeight="fontWeightBold">
                            General
                         </Typography>
 
@@ -134,9 +169,9 @@ function App() {
                                               margin={1}
                                 />
 
-                                <RegularInput label="Soname"
+                                <RegularInput label="Surname"
                                               required
-                                              field={sonameField}
+                                              field={surnameField}
                                               onInputBlur={onInputBlur}
                                               onEnterPress={onEnterPress}
                                 />
@@ -249,8 +284,9 @@ function App() {
 
                         <PDFDownloadLink
                             document={<PdfDocument
+                                picture={picture}
                                 name={nameField.value}
-                                soname={sonameField.value}
+                                soname={surnameField.value}
                                 position={positionField.value}
                                 email={emailField.value}
                                 phone={phoneField.value}

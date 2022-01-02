@@ -165,11 +165,11 @@ export const PdfDocument = (props) => (
         <Page size="A4" style={styles.page}>
             <View style={styles.header}>
                 <View style={styles.headerImage}>
-                    <Image src={Face}/>
+                    <Image src={props.picture ? props.picture : Face}/>
                 </View>
 
                 <Text style={styles.name}>
-                    {`${props.name}  ${props.soname}`}
+                    {`${props.name}  ${props.surname}`}
                 </Text>
                 <Text style={styles.position}>
                     {props.position}
