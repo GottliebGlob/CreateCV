@@ -1,0 +1,25 @@
+.pdf-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+}
+
+.pdf-wrapper {
+    min-width: 590px;
+    min-height: 834px;
+    background-color: white;
+    border-radius: 15px;
+}
+
+.react-pdf__Page__canvas {
+    border-radius: 15px;
+}
+
+.paper-inner {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}

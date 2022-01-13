@@ -1,15 +1,16 @@
 import './App.css';
 import {useEffect, useState, useCallback} from "react";
-import {PDFDownloadLink, pdf} from "@react-pdf/renderer";
-import {Document, Page} from 'react-pdf/dist/esm/entry.webpack';
-import { useFilePicker } from 'use-file-picker';
+
+import {pdf} from "@react-pdf/renderer";
+
+import {useFilePicker} from 'use-file-picker';
 
 import {PdfDocument} from "./components/DemoPage";
 
-import {Container, Grid, TextField, Typography, Button} from "@mui/material"
+import {Grid} from "@mui/material"
 import {makeStyles} from "@mui/styles"
-import PaperWrapper from "./components/PaperWrapper";
-import RegularInput from "./components/RegularInput";
+import FieldsBlock from "./components/FieldsBlock";
+import PresentationBlock from "./components/PresentationBlock";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -24,27 +25,12 @@ const useStyles = makeStyles((theme) => ({
         height: '100%'
 
     },
-    white: {
-        color: '#fff',
-    },
-    mainColor: {
-        color: '#022E51',
-    },
-    resume: {
-        color: '#fff',
-        textAlign: 'center',
-        marginTop: 10
-    },
-    typo: {
-        paddingTop: 10,
-        paddingRight: 10,
-    }
 }));
 
 const useFormField = (initialValue = "") => {
     const [value, setValue] = useState(initialValue);
     const onChange = useCallback((e) => setValue(e.target.value), []);
-    return { value, onChange };
+    return {value, onChange};
 };
 
 function App() {
@@ -67,17 +53,31 @@ function App() {
     const profileField = useFormField("");
     const [profileSymbolsLeft, setProfileSymbolsLeft] = useState(0)
 
-    const [openFileSelector, { filesContent }] = useFilePicker({
+    const [openFileSelector, {filesContent}] = useFilePicker({
         readAs: 'DataURL',
         accept: 'image/*',
         multiple: true,
-        limitFilesConfig: { max: 1 },
+        limitFilesConfig: {max: 1},
         maxFileSize: 50
     });
 
+    const PdfDoc = <PdfDocument
+        picture={picture}
+        name={nameField.value}
+        surname={surnameField.value}
+        position={positionField.value}
+        email={emailField.value}
+        phone={phoneField.value}
+        skype={skypeField.value}
+        telegram={telegramField.value}
+        linkedin={linkedinField.value}
+        github={githubField.value}
+        profile={profileField.value}
+    />
+
     useEffect(() => {
         if (!!filesContent.length) {
-           setPicture(filesContent[0].content)
+            setPicture(filesContent[0].content)
             onInputBlur()
         }
     }, [filesContent.length])
@@ -92,7 +92,7 @@ function App() {
     }
 
     const onEnterPress = (e) => {
-        if(e.keyCode === 13){
+        if (e.keyCode === 13) {
             e.target.blur();
         }
     }
@@ -102,19 +102,7 @@ function App() {
     }
 
     const render = async () => {
-        const blob = await pdf(<PdfDocument
-            picture={picture}
-            name={nameField.value}
-            surname={surnameField.value}
-            position={positionField.value}
-            email={emailField.value}
-            phone={phoneField.value}
-            skype={skypeField.value}
-            telegram={telegramField.value}
-            linkedin={linkedinField.value}
-            github={githubField.value}
-            profile={profileField.value}
-        />).toBlob()
+        const blob = await pdf(PdfDoc).toBlob()
         setCvUrl(blob)
     }
 
@@ -134,180 +122,26 @@ function App() {
                       alignItems="center"
                       justify="center">
 
+                    <FieldsBlock
+                        onInputBlur={onInputBlur}
+                        onEnterPress={onEnterPress}
+                        openFileSelector={openFileSelector}
+                        nameField={nameField}
+                        surnameField={surnameField}
+                        positionField={positionField}
+                        emailField={emailField}
+                        phoneField={phoneField}
+                        skypeField={skypeField}
+                        telegramField={telegramField}
+                        linkedinField={linkedinField}
+                        githubField={githubField}
+                        profileField={profileField}
+                        profileSymbolsLeft={profileSymbolsLeft}
+                    />
 
-                    <Container maxWidth="md">
-                        <Typography variant="h2" className={classes.resume} fontWeight="fontWeightBold">
-                            Your Resume
-                        </Typography>
-
-                        <Typography variant="h5" className={classes.white} fontWeight="fontWeightBold">
-                            Profile picture
-                        </Typography>
-
-                        <PaperWrapper>
-                            <div className="paper-inner pointer" onClick={() => openFileSelector()}>
-
-                                <Typography className={classes.mainColor} variant="h5" fontWeight="fontWeightBold">
-                                    Browse files
-                                </Typography>
-
-                            </div>
-                        </PaperWrapper>
-
-                                <Typography variant="h5" className={classes.white} fontWeight="fontWeightBold">
-                           General
-                        </Typography>
-
-                        <PaperWrapper>
-                            <div className="paper-inner">
-
-                                <RegularInput label="Name"
-                                              required
-                                              field={nameField}
-                                              onInputBlur={onInputBlur}
-                                              onEnterPress={onEnterPress}
-                                              margin={1}
-                                />
-
-                                <RegularInput label="Surname"
-                                              required
-                                              field={surnameField}
-                                              onInputBlur={onInputBlur}
-                                              onEnterPress={onEnterPress}
-                                />
-
-                            </div>
-                        </PaperWrapper>
-
-                        <PaperWrapper>
-                            <div className="paper-inner">
-                                <RegularInput label="Position"
-                                              required
-                                              field={positionField}
-                                              onInputBlur={onInputBlur}
-                                              onEnterPress={onEnterPress}
-                                />
-                            </div>
-                        </PaperWrapper>
-
-                        <Typography variant="h5" className={classes.white} fontWeight="fontWeightBold">
-                            Contacts
-                        </Typography>
-
-                        <PaperWrapper>
-                            <div className="paper-inner">
-                                <RegularInput label="Email"
-                                              required
-                                              field={emailField}
-                                              onInputBlur={onInputBlur}
-                                              onEnterPress={onEnterPress}
-                                              margin={1}
-                                />
-                                <RegularInput label="Phone"
-                                              required
-                                              field={phoneField}
-                                              onInputBlur={onInputBlur}
-                                              onEnterPress={onEnterPress}
-                                />
-                            </div>
-                        </PaperWrapper>
-
-                        <PaperWrapper>
-                            <div className="paper-inner">
-                                <RegularInput label="Skype"
-                                              field={skypeField}
-                                              onInputBlur={onInputBlur}
-                                              onEnterPress={onEnterPress}
-                                              margin={1}
-                                />
-                                <RegularInput label="Telegram"
-                                              field={telegramField}
-                                              onInputBlur={onInputBlur}
-                                              onEnterPress={onEnterPress}
-                                />
-                            </div>
-                        </PaperWrapper>
-
-                        <PaperWrapper>
-                            <div className="paper-inner">
-                            <RegularInput label="LinkedIn"
-                                          field={linkedinField}
-                                          onInputBlur={onInputBlur}
-                                          onEnterPress={onEnterPress}
-                                          margin={1}
-                            />
-                            <RegularInput label="GitHub"
-                                          field={githubField}
-                                          onInputBlur={onInputBlur}
-                                          onEnterPress={onEnterPress}
-                            />
-                            </div>
-                        </PaperWrapper>
-
-                        <Typography variant="h5" className={classes.white} fontWeight="fontWeightBold">
-                            About
-                        </Typography>
-
-                        <PaperWrapper>
-                            <div className="paper-inner">
-                                <RegularInput label="Profile"
-                                              field={profileField}
-                                              required
-                                              onInputBlur={onInputBlur}
-                                              onEnterPress={onEnterPress}
-                                              minRows={4}
-                                              maxLenght={500}
-                                />
-                            </div>
-
-                            <Typography variant="subtitle1"
-                                        sx={{textAlign: 'right'}} >
-                                {`${profileSymbolsLeft}/500`}
-                            </Typography>
-                        </PaperWrapper>
-
-
-
-
-                    </Container>
                 </Grid>
                 <Grid item md={6}>
-                    <div className="App-header">
-                        <div className="pdf-wrapper">
-
-                            <Document
-                                file={cvUrl}
-                                onLoadSuccess={onDocumentLoadSuccess}>
-                                <Page pageNumber={1} width={590}/>
-                            </Document>
-                        </div>
-
-                        <PDFDownloadLink
-                            document={<PdfDocument
-                                picture={picture}
-                                name={nameField.value}
-                                soname={surnameField.value}
-                                position={positionField.value}
-                                email={emailField.value}
-                                phone={phoneField.value}
-                                skype={skypeField.value}
-                                telegram={telegramField.value}
-                                linkedin={linkedinField.value}
-                                github={githubField.value}
-                                profile={profileField.value}
-                            />}
-                            fileName="CV.pdf"
-                            style={{
-                                textDecoration: "none",
-                                padding: "10px",
-                                color: "#4a4a4a",
-                                backgroundColor: "#f2f2f2",
-                                border: "1px solid #4a4a4a"
-                            }}
-                        >
-                            {({blob, url, loading, error}) => (loading ? 'Loading document...' : 'Download now!')}
-                        </PDFDownloadLink>
-                    </div>
+                   <PresentationBlock cvUrl={cvUrl} onDocumentLoadSuccess={onDocumentLoadSuccess} PdfDoc={PdfDoc}/>
                 </Grid>
             </Grid>
 
