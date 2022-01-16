@@ -52,6 +52,7 @@ function App() {
     const githubField = useFormField("");
     const profileField = useFormField("");
     const [profileSymbolsLeft, setProfileSymbolsLeft] = useState(0)
+    const [experience, setExperience] = useState([])
 
     const [openFileSelector, {filesContent}] = useFilePicker({
         readAs: 'DataURL',
@@ -137,6 +138,8 @@ function App() {
                         githubField={githubField}
                         profileField={profileField}
                         profileSymbolsLeft={profileSymbolsLeft}
+                        experience={experience}
+                        setExperience={setExperience}
                     />
 
                 </Grid>
