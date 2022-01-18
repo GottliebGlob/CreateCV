@@ -5,7 +5,7 @@ import {pdf} from "@react-pdf/renderer";
 
 import {useFilePicker} from 'use-file-picker';
 
-import {PdfDocument} from "./components/DemoPage";
+import {PdfDocument} from "./components/PdfComponents/DemoPage";
 
 import {Grid} from "@mui/material"
 import {makeStyles} from "@mui/styles"
@@ -53,6 +53,7 @@ function App() {
     const profileField = useFormField("");
     const [profileSymbolsLeft, setProfileSymbolsLeft] = useState(0)
     const [experience, setExperience] = useState([])
+    const [education, setEducation] = useState([])
 
     const [openFileSelector, {filesContent}] = useFilePicker({
         readAs: 'DataURL',
@@ -74,6 +75,8 @@ function App() {
         linkedin={linkedinField.value}
         github={githubField.value}
         profile={profileField.value}
+        experience={experience}
+        education={education}
     />
 
     useEffect(() => {
@@ -140,6 +143,8 @@ function App() {
                         profileSymbolsLeft={profileSymbolsLeft}
                         experience={experience}
                         setExperience={setExperience}
+                        education={education}
+                        setEducation={setEducation}
                     />
 
                 </Grid>

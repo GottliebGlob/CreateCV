@@ -1,5 +1,5 @@
-import React from 'react';
-import {Typography} from "@mui/material";
+import React, {Fragment} from 'react';
+import {TextField, Typography} from "@mui/material";
 import PaperWrapper from "../PaperWrapper";
 import RegularInput from "../RegularInput";
 import {makeStyles} from "@mui/styles";
@@ -22,6 +22,9 @@ const useStyles = makeStyles((theme) => ({
     mainColor: {
         color: '#022E51',
     },
+    secColor: {
+        color: '#B74803'
+    },
     resume: {
         color: '#fff',
         textAlign: 'center',
@@ -33,47 +36,134 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export const ExperienceInput = ({onInputBlur, onEnterPress, placeField, positionField, periodField}) => {
+export const ExperienceInput = ({
+                                    experience,
+                                    handleInputChange,
+                                    onEnterPress,
+                                    onInputBlur,
+                                    handleRemoveFields,
+                                    firstField,
+                                    secondField }) => {
     const classes = useStyles();
 
     return (
       <>
-          <Typography variant="h5" className={classes.white} fontWeight="fontWeightBold">
-              Contacts
-          </Typography>
+          {experience.map((inputField, index) => (
+              <Fragment key={`${inputField}~${index}`}>
+                  <PaperWrapper>
 
-          <PaperWrapper>
-              <div className="paper-inner">
-                  <RegularInput label="Email"
-                                required
-                                field={placeField}
-                                onInputBlur={onInputBlur}
-                                onEnterPress={onEnterPress}
-                                margin={1}
-                  />
-                  <RegularInput label="Phone"
-                                required
-                                field={positionField}
-                                onInputBlur={onInputBlur}
-                                onEnterPress={onEnterPress}
-                  />
-              </div>
-              <div className="paper-inner">
-                  <RegularInput label="Email"
-                                required
-                                field={props.emailField}
-                                onInputBlur={onInputBlur}
-                                onEnterPress={onEnterPress}
-                                margin={1}
-                  />
-                  <RegularInput label="Phone"
-                                required
-                                field={props.phoneField}
-                                onInputBlur={onInputBlur}
-                                onEnterPress={onEnterPress}
-                  />
-              </div>
-          </PaperWrapper>
+                      <Typography className={classes.mainColor} variant="h5" sx={{marginBottom: 1, textAlign: 'center'}} fontWeight="fontWeightBold">
+                          Where
+                      </Typography>
+
+                      <div className="paper-inner">
+                          <Typography variant="h6" display="inline-block" sx={{
+                              paddingTop: '10px',
+                              paddingRight: '10px',
+                          }}>
+                              Place
+                          </Typography>
+
+                          <TextField
+                              label={firstField}
+                              name={firstField}
+                              required={true}
+                              value={experience.position}
+                              onChange={event => handleInputChange(index, event)}
+                              inputProps={{
+                                  maxLength: 50
+                              }}
+                              sx={{marginRight: 1}}
+                              fullWidth
+                              onBlur={() => onInputBlur()}
+                              onKeyDown={(e) => onEnterPress(e)}
+                          />
+
+                          <Typography variant="h6" display="inline-block" sx={{
+                              paddingTop: '10px',
+                              paddingRight: '10px',
+                          }}>
+                              Position
+                          </Typography>
+
+                          <TextField
+                              label={secondField}
+                              name={secondField}
+                              required={true}
+                              value={experience.position}
+                              onChange={event => handleInputChange(index, event)}
+                              inputProps={{
+                                  maxLength: 50
+                              }}
+                              fullWidth
+                              onBlur={() => onInputBlur()}
+                              onKeyDown={(e) => onEnterPress(e)}
+                          />
+
+                      </div>
+
+                      <Typography className={classes.mainColor} variant="h5" sx={{marginBottom: 1, marginTop: 1, textAlign: 'center'}} fontWeight="fontWeightBold">
+                          When
+                      </Typography>
+
+                      <div className="paper-inner">
+                          <Typography variant="h6" display="inline-block" sx={{
+                              paddingTop: '10px',
+                              paddingRight: '10px',
+                          }}>
+                              Start
+                          </Typography>
+
+                          <TextField
+                              label="Start"
+                              name="start"
+                              required={true}
+                              value={experience.position}
+                              onChange={event => handleInputChange(index, event)}
+                              inputProps={{
+                                  maxLength: 50
+                              }}
+                              sx={{marginRight: 1}}
+                              fullWidth
+                              onBlur={() => onInputBlur()}
+                              onKeyDown={(e) => onEnterPress(e)}
+                          />
+
+                          <Typography variant="h6" display="inline-block" sx={{
+                              paddingTop: '10px',
+                              paddingRight: '10px',
+                          }}>
+                              End
+                          </Typography>
+
+                          <TextField
+                              label="End"
+                              name="end"
+                              value={experience.position}
+                              onChange={event => handleInputChange(index, event)}
+                              inputProps={{
+                                  maxLength: 50
+                              }}
+                              fullWidth
+                              onBlur={() => onInputBlur()}
+                              onKeyDown={(e) => onEnterPress(e)}
+                          />
+
+                      </div>
+
+
+                      <div className="paper-inner pointer" style={{width: '7%', marginLeft: '93%'}}
+                           onClick={() => handleRemoveFields(index)}>
+                          <Typography variant="subtitle1" className={classes.secColor}
+                                      sx={{textAlign: 'right'}} >
+                              remove
+                          </Typography>
+                      </div>
+
+
+                  </PaperWrapper>
+              </Fragment>
+          ))}
       </>
     );
 };

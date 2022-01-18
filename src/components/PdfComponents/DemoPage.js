@@ -8,10 +8,12 @@ import {
     Image,
     Font
 } from "@react-pdf/renderer";
-import Face from '../Face.jpg'
-import Regular from '../fonts/Roboto-Regular.ttf'
-import Bold from '../fonts/Roboto-Bold.ttf'
-import Medium from '../fonts/Roboto-Medium.ttf'
+import Face from '../../Face.jpg'
+import Regular from '../../fonts/Roboto-Regular.ttf'
+import Bold from '../../fonts/Roboto-Bold.ttf'
+import Medium from '../../fonts/Roboto-Medium.ttf'
+
+import {ExperienceItem} from "./ExperienceItem";
 
 
 Font.register({
@@ -160,6 +162,7 @@ const styles = StyleSheet.create({
 });
 
 
+
 export const PdfDocument = (props) => (
     <Document>
         <Page size="A4" style={styles.page}>
@@ -223,35 +226,16 @@ export const PdfDocument = (props) => (
                         EXPERIENCE
                     </Text>
                     <View style={styles.sectionTextWrapper}>
-                        <View style={styles.experienceWrapper}>
-                            <Text style={styles.years}>
-                                • 2019-2021
-                            </Text>
-                            <View style={styles.placeWrapper}>
-                                <Text style={styles.place}>
-                                    Spender Money Tracker
-                                </Text>
-                                <Text style={styles.placeSec}>
-                                    Full Stack Developer
-                                </Text>
-                            </View>
 
-                        </View>
+                        {props.experience.map((inputField, index) => (
+                        <ExperienceItem key={`${index}`}
+                                        firstText={inputField.place}
+                                        secondText={inputField.position}
+                                        start={inputField.start}
+                                        end={inputField.end}
+                        />
+                        ))}
 
-                        <View style={styles.experienceWrapper}>
-                            <Text style={styles.years}>
-                                • 2017-2019
-                            </Text>
-                            <View style={styles.placeWrapper}>
-                                <Text style={styles.place}>
-                                    Auth input
-                                </Text>
-                                <Text style={styles.placeSec}>
-                                    React Native Developer
-                                </Text>
-                            </View>
-
-                        </View>
                     </View>
                 </View>
 
@@ -260,20 +244,14 @@ export const PdfDocument = (props) => (
                         EDUCATION
                     </Text>
                     <View style={styles.sectionTextWrapper}>
-                        <View style={styles.experienceWrapper}>
-                            <Text style={styles.years}>
-                                • 2017-2021
-                            </Text>
-                            <View style={styles.placeWrapper}>
-                                <Text style={styles.place}>
-                                    Volodymyr Dahl National University
-                                </Text>
-                                <Text style={styles.placeSec}>
-                                    Computer Science bachelor's degree
-                                </Text>
-                            </View>
-
-                        </View>
+                        {props.education.map((inputField, index) => (
+                            <ExperienceItem key={`${index}`}
+                                            firstText={inputField.place}
+                                            secondText={inputField.degree}
+                                            start={inputField.start}
+                                            end={inputField.end}
+                            />
+                        ))}
 
                     </View>
                 </View>

@@ -3,6 +3,7 @@ import {makeStyles} from "@mui/styles";
 import {Container, TextField, Typography} from "@mui/material";
 import PaperWrapper from "../PaperWrapper";
 import RegularInput from "../RegularInput";
+import ExperienceInput from "../ExperienceInput";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -42,28 +43,59 @@ export const FieldsBlock = (props) => {
     const classes = useStyles();
 
 
-    const handleAddFields = () => {
+    const handleAddExperience = () => {
         const values = [...props.experience];
         values.push({ place: '', position: '', start: '', end: '' });
         props.setExperience(values);
     };
 
-    const handleRemoveFields = index => {
+    const handleRemoveExperience = index => {
         const values = [...props.experience];
         values.splice(index, 1);
         props.setExperience(values);
     };
 
 
-    const handleInputChange = (index, event) => {
-        console.log(index + " " + event.target.value)
+    const handleExperienceChange = (index, event) => {
+
         const values = [...props.experience];
-        if (event.target.name === "place") {
+        if (event.target.name === "Place") {
             values[index].place = event.target.value;
         }
-        if (event.target.name === "position") {
+        if (event.target.name === "Position") {
             values[index].position = event.target.value;
-            console.log('!!!!')
+        }
+        if (event.target.name === "start") {
+            values[index].start = event.target.value;
+        }
+
+        if (event.target.name === "end") {
+            values[index].end = event.target.value;
+        }
+
+        props.setExperience(values);
+    };
+
+    const handleAddEducation = () => {
+        const values = [...props.education];
+        values.push({ place: '', degree: '', start: '', end: '' });
+        props.setEducation(values);
+    };
+
+    const handleRemoveEducation = index => {
+        const values = [...props.education];
+        values.splice(index, 1);
+        props.setEducation(values);
+    };
+
+    const handleEducationChange = (index, event) => {
+
+        const values = [...props.education];
+        if (event.target.name === "Place") {
+            values[index].place = event.target.value;
+        }
+        if (event.target.name === "Degree") {
+            values[index].position = event.target.value;
         }
         if (event.target.name === "start") {
             values[index].start = event.target.value;
@@ -214,7 +246,7 @@ export const FieldsBlock = (props) => {
             </Typography>
 
             <PaperWrapper>
-                <div className="paper-inner pointer" onClick={() => handleAddFields()}>
+                <div className="paper-inner pointer" onClick={() => handleAddExperience()}>
 
                     <Typography className={classes.mainColor} variant="h5" fontWeight="fontWeightBold">
                         + Add a position
@@ -224,122 +256,37 @@ export const FieldsBlock = (props) => {
             </PaperWrapper>
 
 
-            {props.experience.map((inputField, index) => (
-                <Fragment key={`${inputField}~${index}`}>
-                <PaperWrapper>
+          <ExperienceInput experience={props.experience}
+                           onInputBlur={onInputBlur}
+                           onEnterPress={onEnterPress}
+                           handleInputChange={handleExperienceChange}
+                           handleRemoveFields={handleRemoveExperience}
+                           firstField="Place"
+                           secondField="Position"
+          />
 
-                    <Typography className={classes.mainColor} variant="h5" sx={{marginBottom: 1, textAlign: 'center'}} fontWeight="fontWeightBold">
-                        Where
+            <Typography variant="h5" className={classes.white} fontWeight="fontWeightBold">
+                Education
+            </Typography>
+
+            <PaperWrapper>
+                <div className="paper-inner pointer" onClick={() => handleAddEducation()}>
+
+                    <Typography className={classes.mainColor} variant="h5" fontWeight="fontWeightBold">
+                        + Add a position
                     </Typography>
 
-                    <div className="paper-inner">
-                    <Typography variant="h6" display="inline-block" sx={{
-                        paddingTop: '10px',
-                        paddingRight: '10px',
-                    }}>
-                        Place
-                    </Typography>
+                </div>
+            </PaperWrapper>
 
-                    <TextField
-                        label="Place"
-                        name="place"
-                        required={true}
-                        value={props.experience.position}
-                        onChange={event => handleInputChange(index, event)}
-                        inputProps={{
-                            maxLength: 50
-                        }}
-                        sx={{marginRight: 1}}
-                        fullWidth
-                        onBlur={() => props.onInputBlur()}
-                        onKeyDown={(e) => props.onEnterPress(e)}
-                    />
-
-                        <Typography variant="h6" display="inline-block" sx={{
-                            paddingTop: '10px',
-                            paddingRight: '10px',
-                        }}>
-                            Position
-                        </Typography>
-
-                        <TextField
-                            label="Position"
-                            name="position"
-                            required={true}
-                            value={props.experience.position}
-                            onChange={event => handleInputChange(index, event)}
-                            inputProps={{
-                                maxLength: 50
-                            }}
-                            fullWidth
-                            onBlur={() => props.onInputBlur()}
-                            onKeyDown={(e) => props.onEnterPress(e)}
-                        />
-
-                    </div>
-
-                    <Typography className={classes.mainColor} variant="h5" sx={{marginBottom: 1, marginTop: 1, textAlign: 'center'}} fontWeight="fontWeightBold">
-                       When
-                    </Typography>
-
-                    <div className="paper-inner">
-                        <Typography variant="h6" display="inline-block" sx={{
-                            paddingTop: '10px',
-                            paddingRight: '10px',
-                        }}>
-                            Start
-                        </Typography>
-
-                        <TextField
-                            label="Start"
-                            name="start"
-                            required={true}
-                            value={props.experience.position}
-                            onChange={event => handleInputChange(index, event)}
-                            inputProps={{
-                                maxLength: 50
-                            }}
-                            sx={{marginRight: 1}}
-                            fullWidth
-                            onBlur={() => props.onInputBlur()}
-                            onKeyDown={(e) => props.onEnterPress(e)}
-                        />
-
-                        <Typography variant="h6" display="inline-block" sx={{
-                            paddingTop: '10px',
-                            paddingRight: '10px',
-                        }}>
-                            End
-                        </Typography>
-
-                        <TextField
-                            label="End"
-                            name="end"
-                            value={props.experience.position}
-                            onChange={event => handleInputChange(index, event)}
-                            inputProps={{
-                                maxLength: 50
-                            }}
-                            fullWidth
-                            onBlur={() => props.onInputBlur()}
-                            onKeyDown={(e) => props.onEnterPress(e)}
-                        />
-
-                    </div>
-
-
-                    <div className="paper-inner pointer" style={{width: '7%', marginLeft: '93%'}} onClick={() => handleRemoveFields(index)}>
-                        <Typography variant="subtitle1" className={classes.secColor}
-                                    sx={{textAlign: 'right'}} >
-                           remove
-                        </Typography>
-                    </div>
-
-
-                </PaperWrapper>
-                </Fragment>
-            ))}
-
+            <ExperienceInput experience={props.education}
+                             onInputBlur={onInputBlur}
+                             onEnterPress={onEnterPress}
+                             handleInputChange={handleEducationChange}
+                             handleRemoveFields={handleRemoveEducation}
+                             firstField="Place"
+                             secondField="Degree"
+            />
 
         </Container>
     );
