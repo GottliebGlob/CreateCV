@@ -8,12 +8,13 @@ import {
     Image,
     Font
 } from "@react-pdf/renderer";
-import Face from '../../Face.jpg'
+import Face from '../../dummy-face.jpg'
 import Regular from '../../fonts/Roboto-Regular.ttf'
 import Bold from '../../fonts/Roboto-Bold.ttf'
 import Medium from '../../fonts/Roboto-Medium.ttf'
 
 import {ExperienceItem} from "./ExperienceItem";
+import {SkillGroupItem} from "./SkillGroupItem";
 
 
 Font.register({
@@ -154,13 +155,20 @@ const styles = StyleSheet.create({
         padding: 5,
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'space-evenly',
         backgroundColor: '#B74803',
-        width: '100%'
+        width: '100%',
+        minHeight: 30
+    },
+    langsText: {
+        color: 'white',
+        fontSize: 16,
+        textAlign: 'center',
+        paddingTop: 5,
+
     },
 
 });
-
 
 
 export const PdfDocument = (props) => (
@@ -181,29 +189,29 @@ export const PdfDocument = (props) => (
 
                 <View style={styles.contacts}>
 
-                    { props.email.length > 0 && ( <Text style={styles.contactsText}>
-                            {props.email}
-                        </Text> )}
+                    {props.email.length > 0 && (<Text style={styles.contactsText}>
+                        {props.email}
+                    </Text>)}
 
-                    { props.phone.length > 0 && ( <Text style={styles.contactsText}>
+                    {props.phone.length > 0 && (<Text style={styles.contactsText}>
                         {props.phone}
-                    </Text> )}
+                    </Text>)}
 
-                    { props.linkedin.length > 0 && ( <Text style={styles.contactsText}>
+                    {props.linkedin.length > 0 && (<Text style={styles.contactsText}>
                         {props.linkedin}
-                    </Text> )}
+                    </Text>)}
 
-                    { props.skype.length > 0 && ( <Text style={styles.contactsText}>
+                    {props.skype.length > 0 && (<Text style={styles.contactsText}>
                         {props.skype}
-                    </Text> )}
+                    </Text>)}
 
-                    { props.telegram.length > 0 && ( <Text style={styles.contactsText}>
+                    {props.telegram.length > 0 && (<Text style={styles.contactsText}>
                         {props.telegram}
-                    </Text> )}
+                    </Text>)}
 
-                    { props.github.length > 0 && ( <Text style={styles.contactsText}>
+                    {props.github.length > 0 && (<Text style={styles.contactsText}>
                         {props.github}
-                    </Text> )}
+                    </Text>)}
 
                 </View>
             </View>
@@ -228,12 +236,12 @@ export const PdfDocument = (props) => (
                     <View style={styles.sectionTextWrapper}>
 
                         {props.experience.map((inputField, index) => (
-                        <ExperienceItem key={`${index}`}
-                                        firstText={inputField.place}
-                                        secondText={inputField.position}
-                                        start={inputField.start}
-                                        end={inputField.end}
-                        />
+                            <ExperienceItem key={`${index}`}
+                                            firstText={inputField.place}
+                                            secondText={inputField.position}
+                                            start={inputField.start}
+                                            end={inputField.end}
+                            />
                         ))}
 
                     </View>
@@ -260,36 +268,26 @@ export const PdfDocument = (props) => (
                     <Text style={styles.sectionHeader}>
                         SKILLS
                     </Text>
-                    <View style={styles.skillGroup}>
-                        <Text style={styles.skillGroupHeader}>
-                            Languages/Frameworks
-                        </Text>
-                        <View style={styles.skillGroupItem}>
-                            <Text style={styles.skillGroupItemText}>
-                                • JavaScript
-                            </Text>
-                            <Text style={styles.skillGroupItemText}>
-                                • React Native
-                            </Text>
-                            <Text style={styles.skillGroupItemText}>
-                                • Typescript
-                            </Text>
-                        </View>
 
-                    </View>
+
+                    {props.skills.map((inputField, index) => (
+                        <SkillGroupItem key={`${index}`}
+                                        groupName={inputField.groupName}
+                                        skills={inputField.childSkills ? inputField.childSkills : []}
+                        />
+                    ))}
+
+
                 </View>
 
                 <View style={styles.languages} fixed>
 
-                    <Text style={styles.contactsText}>
-                        • Ukrainian (C1)
-                    </Text>
-                    <Text style={styles.contactsText}>
-                        • Russian (C1)
-                    </Text>
-                    <Text style={styles.contactsText}>
-                        • English (B2)
-                    </Text>
+                    {props.langs.map((inputField, index) => (
+                        <Text key={`${index}`} style={styles.langsText}>
+                            • {inputField.name} {inputField.level.length > 0 ? `(${inputField.level})` : ""}
+                        </Text>
+                    ))}
+
                 </View>
             </View>
         </Page>

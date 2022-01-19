@@ -54,6 +54,8 @@ function App() {
     const [profileSymbolsLeft, setProfileSymbolsLeft] = useState(0)
     const [experience, setExperience] = useState([])
     const [education, setEducation] = useState([])
+    const [skills, setSkills] = useState([])
+    const [langs, setLangs] = useState([])
 
     const [openFileSelector, {filesContent}] = useFilePicker({
         readAs: 'DataURL',
@@ -77,6 +79,8 @@ function App() {
         profile={profileField.value}
         experience={experience}
         education={education}
+        skills={skills}
+        langs={langs}
     />
 
     useEffect(() => {
@@ -145,11 +149,19 @@ function App() {
                         setExperience={setExperience}
                         education={education}
                         setEducation={setEducation}
+                        skills={skills}
+                        setSkills={setSkills}
+                        langs={langs}
+                        setLangs={setLangs}
                     />
 
                 </Grid>
-                <Grid item md={6}>
-                   <PresentationBlock cvUrl={cvUrl} onDocumentLoadSuccess={onDocumentLoadSuccess} PdfDoc={PdfDoc}/>
+                <Grid item md={6} sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                }}>
+                    <PresentationBlock cvUrl={cvUrl} onDocumentLoadSuccess={onDocumentLoadSuccess} PdfDoc={PdfDoc}/>
                 </Grid>
             </Grid>
 

@@ -21,6 +21,7 @@ export const PresentationBlock = ({cvUrl, onDocumentLoadSuccess, PdfDoc}) => {
                 style={{
                     textDecoration: "none",
                     padding: "10px",
+                    marginTop: "10px",
                     color: "#4a4a4a",
                     backgroundColor: "#f2f2f2",
                     border: "1px solid #4a4a4a"

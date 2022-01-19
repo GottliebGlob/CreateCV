@@ -4,6 +4,8 @@ import {Container, TextField, Typography} from "@mui/material";
 import PaperWrapper from "../PaperWrapper";
 import RegularInput from "../RegularInput";
 import ExperienceInput from "../ExperienceInput";
+import SkillsInput from "../SkillsInput";
+import LangsInput from "../LangsInput";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -24,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
         color: '#022E51',
     },
     secColor: {
-      color: '#B74803'
+        color: '#B74803'
     },
     resume: {
         color: '#fff',
@@ -45,11 +47,12 @@ export const FieldsBlock = (props) => {
 
     const handleAddExperience = () => {
         const values = [...props.experience];
-        values.push({ place: '', position: '', start: '', end: '' });
+        values.push({place: '', position: '', start: '', end: ''});
         props.setExperience(values);
     };
 
     const handleRemoveExperience = index => {
+        onInputBlur()
         const values = [...props.experience];
         values.splice(index, 1);
         props.setExperience(values);
@@ -78,11 +81,12 @@ export const FieldsBlock = (props) => {
 
     const handleAddEducation = () => {
         const values = [...props.education];
-        values.push({ place: '', degree: '', start: '', end: '' });
+        values.push({place: '', degree: '', start: '', end: ''});
         props.setEducation(values);
     };
 
     const handleRemoveEducation = index => {
+        onInputBlur()
         const values = [...props.education];
         values.splice(index, 1);
         props.setEducation(values);
@@ -106,6 +110,77 @@ export const FieldsBlock = (props) => {
         }
 
         props.setExperience(values);
+    };
+
+    const handleAddSkillGroup = () => {
+        const values = [...props.skills];
+        values.push({groupName: '', childSkills: []});
+        props.setSkills(values);
+    };
+
+    const handleRemoveSkillGroup = index => {
+        onInputBlur()
+        const values = [...props.skills];
+        values.splice(index, 1);
+        props.setSkills(values);
+    };
+
+    const handleSkillGroupChange = (index, event) => {
+
+        const values = [...props.skills];
+        if (event.target.name === "GroupName") {
+            values[index].groupName = event.target.value;
+        }
+
+        props.setSkills(values);
+    };
+
+    const handleAddSkill = (index) => {
+        const values = [...props.skills]
+        values[index].childSkills.push({skillName: ''})
+        props.setSkills(values);
+    };
+
+    const handleRemoveSkill = (index) => {
+        onInputBlur()
+        const values = [...props.skills];
+        values[index].childSkills.splice(index, 1);
+        props.setSkills(values);
+    };
+
+    const handleSkillChange = (index, event, parentIndex) => {
+
+        const values = [...props.skills];
+
+        values[parentIndex].childSkills[index].skillName = event.target.value
+
+        props.setSkills(values);
+    };
+
+
+    const handleAddLang = () => {
+        const values = [...props.langs];
+        values.push({name: '', level: ''});
+        props.setLangs(values);
+    };
+
+    const handleRemoveLang = index => {
+        onInputBlur()
+        const values = [...props.langs];
+        values.splice(index, 1);
+        props.setLangs(values);
+    };
+
+    const handleLangsChange = (index, event) => {
+
+        const values = [...props.langs];
+
+        if (event.target.name === "Level") {
+            values[index].level = event.target.value;
+        } else {
+            values[index].name = event.target.value;
+        }
+        props.setLangs(values);
     };
 
 
@@ -236,7 +311,7 @@ export const FieldsBlock = (props) => {
                 </div>
 
                 <Typography variant="subtitle1"
-                            sx={{textAlign: 'right'}} >
+                            sx={{textAlign: 'right'}}>
                     {`${props.profileSymbolsLeft}/500`}
                 </Typography>
             </PaperWrapper>
@@ -249,21 +324,21 @@ export const FieldsBlock = (props) => {
                 <div className="paper-inner pointer" onClick={() => handleAddExperience()}>
 
                     <Typography className={classes.mainColor} variant="h5" fontWeight="fontWeightBold">
-                        + Add a position
+                        + Add an experience
                     </Typography>
 
                 </div>
             </PaperWrapper>
 
 
-          <ExperienceInput experience={props.experience}
-                           onInputBlur={onInputBlur}
-                           onEnterPress={onEnterPress}
-                           handleInputChange={handleExperienceChange}
-                           handleRemoveFields={handleRemoveExperience}
-                           firstField="Place"
-                           secondField="Position"
-          />
+            <ExperienceInput experience={props.experience}
+                             onInputBlur={onInputBlur}
+                             onEnterPress={onEnterPress}
+                             handleInputChange={handleExperienceChange}
+                             handleRemoveFields={handleRemoveExperience}
+                             firstField="Place"
+                             secondField="Position"
+            />
 
             <Typography variant="h5" className={classes.white} fontWeight="fontWeightBold">
                 Education
@@ -273,7 +348,7 @@ export const FieldsBlock = (props) => {
                 <div className="paper-inner pointer" onClick={() => handleAddEducation()}>
 
                     <Typography className={classes.mainColor} variant="h5" fontWeight="fontWeightBold">
-                        + Add a position
+                        + Add an education
                     </Typography>
 
                 </div>
@@ -286,6 +361,51 @@ export const FieldsBlock = (props) => {
                              handleRemoveFields={handleRemoveEducation}
                              firstField="Place"
                              secondField="Degree"
+            />
+
+            <Typography variant="h5" className={classes.white} fontWeight="fontWeightBold">
+                Skills
+            </Typography>
+
+            <PaperWrapper>
+                <div className="paper-inner pointer" onClick={() => handleAddSkillGroup()}>
+
+                    <Typography className={classes.mainColor} variant="h5" fontWeight="fontWeightBold">
+                        + Add a skill or a group of skills
+                    </Typography>
+
+                </div>
+            </PaperWrapper>
+
+            <SkillsInput skills={props.skills}
+                         onInputBlur={onInputBlur}
+                         onEnterPress={onEnterPress}
+                         handleInputChange={handleSkillGroupChange}
+                         handleRemoveSkillGroup={handleRemoveSkillGroup}
+                         handleAddChildField={handleAddSkill}
+                         handleChildInputChange={handleSkillChange}
+                         handleRemoveSkill={handleRemoveSkill}
+            />
+
+            <Typography variant="h5" className={classes.white} fontWeight="fontWeightBold">
+                Languages
+            </Typography>
+
+            <PaperWrapper>
+                <div className="paper-inner pointer" onClick={() => handleAddLang()}>
+
+                    <Typography className={classes.mainColor} variant="h5" fontWeight="fontWeightBold">
+                        + Add a language
+                    </Typography>
+
+                </div>
+            </PaperWrapper>
+
+            <LangsInput langs={props.langs}
+                        onInputBlur={onInputBlur}
+                        onEnterPress={onEnterPress}
+                        handleInputChane={handleLangsChange}
+                        handleRemoveLang={handleRemoveLang}
             />
 
         </Container>
