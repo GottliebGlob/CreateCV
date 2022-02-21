@@ -48,7 +48,8 @@ export const SkillsInput = ({
                             }) => {
     const classes = useStyles();
 
-    console.log('Inside it looks like ' + JSON.stringify(skills))
+    let mobileMarker = window.innerWidth<=768
+
 
     return (
         <>
@@ -64,8 +65,8 @@ export const SkillsInput = ({
                         <div className="paper-inner">
 
                             <Typography variant="h6" display="inline-block" sx={{
-                                paddingTop: '10px',
-                                paddingRight: '10px',
+                                paddingTop: mobileMarker ? '5px' : '10px',
+                                paddingRight: mobileMarker ? '5px' : '10px',
                             }}>
                                 Skill:
                             </Typography>
@@ -74,6 +75,7 @@ export const SkillsInput = ({
                                 label="Skill or a group of skills"
                                 name="GroupName"
                                 required={true}
+                                size={mobileMarker ? 'small' : 'normal'}
                                 value={parentField.groupName}
                                 onChange={event => handleInputChange(parentIndex, event)}
                                 inputProps={{
@@ -86,8 +88,8 @@ export const SkillsInput = ({
                             />
 
                             <Button variant="outlined"
-                                    sx={{height: 55}}
-                                    onClick={() => handleAddChildField(parentIndex)}>+ New skill in group</Button>
+                                    size={mobileMarker ? 'small' : 'medium'}
+                                    onClick={() => handleAddChildField(parentIndex)}>ADD</Button>
 
                         </div>
 
@@ -97,8 +99,8 @@ export const SkillsInput = ({
 
                                 <div className="paper-inner distance">
                                     <Typography variant="h6" display="inline-block" sx={{
-                                        paddingTop: '10px',
-                                        paddingRight: '10px',
+                                        paddingTop: mobileMarker ? '5px' : '10px',
+                                        paddingRight: mobileMarker ? '5px' : '10px',
                                     }}>
                                         {`№${index + 1}:`}
                                     </Typography>
@@ -106,6 +108,7 @@ export const SkillsInput = ({
                                     <TextField
                                         label="Name of the skill"
                                         name="SkillName"
+                                        size={mobileMarker ? 'small' : 'normal'}
                                         required={true}
                                         value={inputField.skillName}
                                         onChange={event => handleChildInputChange(index, event, parentIndex)}
@@ -127,7 +130,7 @@ export const SkillsInput = ({
                             </Fragment>
                         ))}
 
-                        <div className="paper-inner pointer" style={{width: '7%', marginLeft: '93%'}}
+                        <div className="paper-inner pointer" style={{width: '7%', marginLeft: mobileMarker ? '85%' : '93%'}}
                              onClick={() => handleRemoveSkillGroup(parentIndex)}>
                             <Typography variant="subtitle1" className={classes.secColor}
                                         sx={{textAlign: 'right'}}>

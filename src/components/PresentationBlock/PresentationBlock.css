@@ -8,14 +8,12 @@
 }
 
 .pdf-wrapper {
-    min-width: 590px;
-    min-height: 834px;
     background-color: white;
-    border-radius: 15px;
+    border-radius: 10px;
 }
 
 .react-pdf__Page__canvas {
-    border-radius: 15px;
+    border-radius: 10px;
 }
 
 .paper-inner {

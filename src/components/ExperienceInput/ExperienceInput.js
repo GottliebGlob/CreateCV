@@ -46,6 +46,8 @@ export const ExperienceInput = ({
                                 }) => {
     const classes = useStyles();
 
+    let mobileMarker = window.innerWidth<=768
+
     return (
         <>
             {experience.map((inputField, index) => (
@@ -59,13 +61,14 @@ export const ExperienceInput = ({
 
                         <div className="paper-inner">
                             <Typography variant="h6" display="inline-block" sx={{
-                                paddingTop: '10px',
-                                paddingRight: '10px',
+                                paddingTop: mobileMarker ? '5px' : '10px',
+                                paddingRight: mobileMarker ? '5px' : '10px',
                             }}>
                                 Place
                             </Typography>
 
                             <TextField
+                                size={mobileMarker ? 'small' : 'normal'}
                                 label={firstField}
                                 name={firstField}
                                 required={true}
@@ -81,13 +84,14 @@ export const ExperienceInput = ({
                             />
 
                             <Typography variant="h6" display="inline-block" sx={{
-                                paddingTop: '10px',
-                                paddingRight: '10px',
+                                paddingTop: mobileMarker ? '5px' : '10px',
+                                paddingRight: mobileMarker ? '5px' : '10px',
                             }}>
                                 Position
                             </Typography>
 
                             <TextField
+                                size={mobileMarker ? 'small' : 'normal'}
                                 label={secondField}
                                 name={secondField}
                                 required={true}
@@ -111,13 +115,14 @@ export const ExperienceInput = ({
 
                         <div className="paper-inner">
                             <Typography variant="h6" display="inline-block" sx={{
-                                paddingTop: '10px',
-                                paddingRight: '10px',
+                                paddingTop: mobileMarker ? '5px' : '10px',
+                                paddingRight: mobileMarker ? '5px' : '10px',
                             }}>
                                 Start
                             </Typography>
 
                             <TextField
+                                size={mobileMarker ? 'small' : 'normal'}
                                 label="Start"
                                 name="start"
                                 required={true}
@@ -133,13 +138,14 @@ export const ExperienceInput = ({
                             />
 
                             <Typography variant="h6" display="inline-block" sx={{
-                                paddingTop: '10px',
-                                paddingRight: '10px',
+                                paddingTop: mobileMarker ? '5px' : '10px',
+                                paddingRight: mobileMarker ? '5px' : '10px',
                             }}>
                                 End
                             </Typography>
 
                             <TextField
+                                size={mobileMarker ? 'small' : 'normal'}
                                 label="End"
                                 name="end"
                                 value={experience.position}
@@ -155,7 +161,7 @@ export const ExperienceInput = ({
                         </div>
 
 
-                        <div className="paper-inner pointer" style={{width: '7%', marginLeft: '93%'}}
+                        <div className="paper-inner pointer" style={{width: '7%', marginLeft: mobileMarker ? '85%' : '93%'}}
                              onClick={() => handleRemoveFields(index)}>
                             <Typography variant="subtitle1" className={classes.secColor}
                                         sx={{textAlign: 'right'}}>

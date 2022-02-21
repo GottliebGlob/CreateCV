@@ -184,9 +184,10 @@ export const FieldsBlock = (props) => {
     };
 
 
+
     return (
         <Container maxWidth="md">
-            <Typography variant="h2" className={classes.resume} fontWeight="fontWeightBold">
+            <Typography variant="h3" className={classes.resume} fontWeight="fontWeightBold">
                 Your Resume
             </Typography>
 
